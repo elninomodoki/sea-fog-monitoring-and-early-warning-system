@@ -1,0 +1,4 @@
+'/home/user/fjfog_v1.1/fjec_pool/'
+'/home/user/fjfog_v1.1/predict_fjec_l_p/temp/'
+'/home/user/fjfog_v1.1/predict_fjec_l_p/'
+'/home/user/fjfog_v1.1/fjec_vis_micaps_l_p_pool/'

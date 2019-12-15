@@ -1,0 +1,4 @@
+'/home/user/dir1/input/fjens/'
+'/home/user/'
+'/home/user/fjfog_v1.1/fjec_pool/'
+'/home/user/fjfog_v1.1/fjec_crop/'

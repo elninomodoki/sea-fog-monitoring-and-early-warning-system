@@ -1,0 +1,21 @@
+*****************201703061259*****************
+Traceback (most recent call last):
+  File "read_fjec.py", line 78, in <module>
+    wrf_name,output_name,time_list[i],time_list_w[i])
+  File "read_fjec.py", line 34, in read_fjec
+    +dist+time_list_n+'_'+'{:0>3}'.format(jj)+'_'+str(id2[i])+'.csv'
+KeyboardInterrupt
+*****************201703051259*****************
+*****************201812221339*****************
+*****************201812221340*****************
+*****************201812221921*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/read_fjec/read_fjec.py", line 79, in <module>
+    print('begin:',sa)
+OSError: [Errno 5] Input/output error
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>
+OSError: [Errno 5] Input/output error
+*****************201812222120*****************
+*****************201812231456*****************
+*****************201812231824*****************
+*****************201812241341*****************

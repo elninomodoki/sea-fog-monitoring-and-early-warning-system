@@ -1,0 +1,115 @@
+*****************201811232221*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 90, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.3/0_24_obs/interpolate_station_predict_mix_function.py", line 227, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.3/0_24_obs/function_time.py", line 15, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.3/wrf_vis_pool/2017080520/2017080508interpolated.csv'
+*****************201811232223*****************
+*****************201703071103*****************
+*****************201703061105*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 83, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/0_24_obs/interpolate_station_predict_mix_function.py", line 232, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/0_24_obs/function_time.py", line 15, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.5_test/wrf_vis_pool/2017030520/2017030611interpolated.csv'
+*****************201703061105*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 83, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/0_24_obs/interpolate_station_predict_mix_function.py", line 232, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/0_24_obs/function_time.py", line 15, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.5_test/wrf_vis_pool/2017030520/2017030611interpolated.csv'
+*****************201703060429*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 222, in interpolate_station_predict_mix_function
+    name = os.path.dirname(__file__)
+UnboundLocalError: local variable 'os' referenced before assignment
+*****************201703060430*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 233, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/function_time_demo.py", line 36, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/wrf_vis_pool/2017030508/2017030604interpolated.csv'
+*****************201703050811*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 233, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/function_time_demo.py", line 36, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/wrf_vis_pool/2017030420/2017030508interpolated.csv'
+*****************201703050812*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 246, in interpolate_station_predict_mix_function
+    f111 =  open(eval(obs_name)+str(input_name[-24:-16])+'00.000','r')
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/obs/1703050800.000'
+*****************201703050813*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 248, in interpolate_station_predict_mix_function
+    lines1 = f111.readlines()
+  File "/home/ouc/anaconda3/lib/python3.6/codecs.py", line 321, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc4 in position 13: invalid continuation byte
+*****************201703050816*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 257, in interpolate_station_predict_mix_function
+    f2.write(line)
+NameError: name 'f2' is not defined
+*****************201703050816*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/mnt/data/trans_data/fjfog_v0.7/0_24_obs/interpolate_station_predict_mix_function.py", line 262, in interpolate_station_predict_mix_function
+    lon_obs = col1(open_file(eval(obs_name)+str(input_name[-24:-16])+'00.000.csv'),1)
+NameError: name 'col1' is not defined
+*****************201703050817*****************
+*****************201812231510*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 80, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/home/user/fjfog_v1.0/0_24_obs/interpolate_station_predict_mix_function.py", line 233, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/home/user/fjfog_v1.0/0_24_obs/function_time_demo.py", line 36, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_vis_pool/2018122220/2018122315interpolated.csv'
+*****************201812231512*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 82, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/home/user/fjfog_v1.0/0_24_obs/interpolate_station_predict_mix_function.py", line 233, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/home/user/fjfog_v1.0/0_24_obs/function_time_demo.py", line 36, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_vis_pool/2018030508/2018122315interpolated.csv'
+*****************201812231514*****************
+Traceback (most recent call last):
+  File "0_24_obs.py", line 84, in <module>
+    interpolate_station_predict_mix_function(eval(pool_name)+qibao_local+'/'+time_list[i]+'interpolated.csv',eval(over_name)+inital_time[:-2]+'/'+time_list[i]+'obs.txt')
+  File "/home/user/fjfog_v1.0/0_24_obs/interpolate_station_predict_mix_function.py", line 233, in interpolate_station_predict_mix_function
+    lat = col(open_file(input_name),-3)
+  File "/home/user/fjfog_v1.0/0_24_obs/function_time_demo.py", line 36, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_vis_pool/2018030508/2018030508interpolated.csv'
+*****************201812231515*****************
+*****************201812231517*****************
+*****************201812231519*****************

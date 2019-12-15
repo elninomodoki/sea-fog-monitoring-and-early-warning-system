@@ -1,0 +1,3 @@
+'/media/lbb/000FDF0F0004D510/wrf2/'
+'/media/lbb/新加卷/fjfog2017-2018/12-72_lwc/test_time_demo2/'
+'/media/lbb/新加卷/fjfog2017-2018/12-72_lwc/'

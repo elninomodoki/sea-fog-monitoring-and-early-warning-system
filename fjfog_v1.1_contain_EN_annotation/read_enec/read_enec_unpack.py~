@@ -1,0 +1,120 @@
+# -*- coding: utf-8 -*-
+'''
+创建于20180306,修改于20190425
+@author: lxb
+读取enec数据'''
+import numpy as np
+np.random.seed(1337)
+import pandas as pd
+import os
+import csv
+import os.path
+import math
+from time import *
+from function_time_demo import all_path
+from pandas import read_csv
+import time as tttt
+import datetime
+import sys
+from multiprocessing import Pool
+
+print('read_enec_unpack_begin')
+##记录错误
+#读取该脚本名
+name = os.path.dirname(__file__)
+#获取当前脚本所在目录
+a = os.path.abspath(name)
+#得到当前脚本绝对路径
+absu = a+'/'
+#建立错误日志
+fsock = open(absu+'error_unpack.log', 'a')
+#设置将错误输出到文件
+#sys.stderr = fsock
+#获取当前时间
+sa = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+#将当前时间打印到错误日志的开头
+ef = open(absu+'error_unpack.log', 'a')
+ef.write('*****************'+str(sa)+'*****************'+'\n')
+ef.close()
+
+##获取待读取时间
+#获取当前时间
+inital_time = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+today = datetime.date.today()
+yesterday = today - datetime.timedelta(days = 1)
+#为应对模式传输所滞后的7小时时间，设定两种读取时间，\
+#当前时间早于5点时和当前时间晚于5点时
+if int(inital_time[-4:]) <= 510:
+	qibao = str(yesterday)[:4]+str(yesterday)[5:7]+str(yesterday)[8:10]+'12'
+else:
+	qibao = str(today)[:4]+str(today)[5:7]+str(today)[8:10]+'00'
+
+############test##########
+#用于临时测试,正式使用时需注释掉
+#qibao = '2018031000'
+##########################
+
+#标准化起报时间
+te = str(qibao)[:4]+'-'+str(qibao)[4:6]+'-'+str(qibao)[6:8]+\
+'-'+str(qibao)[8:10]
+#生成时间序列
+inital_time_list = pd.date_range(te,periods = 40,freq = '6h').tolist()
+time_list = []
+for i in range(len(inital_time_list)):
+	time_list.append(str(inital_time_list[i])[:4]+str(inital_time_list[i])[5:7]+\
+	str(inital_time_list[i])[8:10]+str(inital_time_list[i])[11:13])
+
+time_list_w = []
+for i in range(len(time_list)):
+	time_list_w.append(qibao[4:]+'00'+time_list[i][4:]+'001')
+
+
+#读取路径文件
+dir_f = open(absu+'read_enec_unpack.txt','r')
+dir_ff = dir_f.readlines()
+wrf_name = dir_ff[0].strip('\n')
+
+father_list = all_path(eval(wrf_name)+qibao) 
+print(len(father_list))
+#解压
+def unpack(i):
+	print('upack-'+str(i))
+	if father_list[i][-1] == 'o':
+		os.remove(eval(wrf_name)+qibao+'/'+father_list[i])
+	else:
+		os.system('bzip2 -d '+eval(wrf_name)+qibao+'/'+father_list[i])
+	return 0
+
+##多线程，但是无法释放内存
+pool = Pool(processes=8) 
+res = pool.map(unpack, range(len(father_list)))
+
+##test
+#unpack(0)
+#unpack(1)
+
+print('begin:',sa)
+print('over:',tttt.strftime("%Y%m%d%H%M", tttt.localtime()))
+print('read_enec_unpack_over')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

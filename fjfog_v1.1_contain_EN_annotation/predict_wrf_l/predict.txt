@@ -1,0 +1,6 @@
+'/home/user/fjfog_v1.1/wrf_pool/'
+'/home/user/fjfog_v1.1/predict_wrf_l/temp/'
+'/home/user/fjfog_v1.1/predict_wrf_l/'
+'/home/user/fjfog_v1.1/predict_wrf_l/over/'
+'/home/user/fjfog_v1.1/wrf_vis_pool_for_l/'
+'/home/user/fjfog_v1.1/wrf_vis_micaps_l_pool/'

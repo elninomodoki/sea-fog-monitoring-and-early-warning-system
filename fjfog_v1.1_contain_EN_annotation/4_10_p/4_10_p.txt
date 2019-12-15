@@ -1,0 +1,3 @@
+'/home/user/fjfog_v1.1/enec_vis_micaps_p_pool/'
+'/home/user/fjfog_v1.1/4_10_p_over/'
+

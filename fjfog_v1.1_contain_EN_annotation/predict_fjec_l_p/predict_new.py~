@@ -1,0 +1,287 @@
+# -*- coding: utf-8 -*-
+'''
+创建于20180306,修改于20190413
+@author: lxb
+进行能见度等级概率预报'''
+import numpy as np
+np.random.seed(1337)
+import keras
+from keras.models import load_model
+import h5py
+import sklearn
+from sklearn.model_selection import train_test_split
+from keras.utils import np_utils
+import pandas as pd
+import os
+import csv
+import os.path
+import math
+from time import *
+from function_time_demo import *
+from pandas import read_csv
+from sklearn.preprocessing import MinMaxScaler
+import time as tttt
+import datetime
+from interpolate_9_5_ccx_function import *
+import sys
+from micaps_function import *
+import datetime as dt
+from multiprocessing import Pool
+
+def local2utc(local_st):
+	'''本地时间转UTC时间（-8:00）'''
+	time_struct = tttt.mktime(local_st.timetuple())
+	utc_st = dt.datetime.utcfromtimestamp(time_struct)
+	return utc_st
+def utc2local(utc_st):
+	'''UTC时间转本地时间（+8:00）'''
+	now_stamp = tttt.time()
+	local_time = dt.datetime.fromtimestamp(now_stamp)
+	utc_time = dt.datetime.utcfromtimestamp(now_stamp)
+	offset = local_time - utc_time
+	local_st = utc_st + offset
+	return local_st
+def Normalizemaxmin(X, X_stan):
+	'''（每一个数据-当前列的最小值）/(当前列的最大值-当前列的最小值)'''
+	X_norm = np.zeros(X.shape)
+	n = X.shape[1]
+	xmax = np.zeros((1,n))
+	xmin = np.zeros((1,n))
+	xmax = np.max(X_stan,axis=0)
+	xmin = np.min(X_stan,axis=0)
+	for i in range(n):
+		X_norm[:,i] = (X[:,i] - xmin[i])/(xmax[i] - xmin[i])
+	return X_norm
+
+print('predict_fjec_l_p_begin')
+##记录错误
+#读取该脚本名
+name = os.path.dirname(__file__)
+#获取当前脚本所在目录
+a = os.path.abspath(name)
+#得到当前脚本绝对路径
+absu = a+'/'
+#建立错误日志
+fsock = open(absu+'predict_fjec_l_p_error.log', 'a')
+#设置将错误输出到文件
+sys.stderr = fsock
+#获取当前时间
+sa = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+#将当前时间打印到错误日志的开头
+ef = open(absu+'predict_fjec_l_p_error.log', 'a')
+ef.write('*****************'+str(sa)+'*****************'+'\n')
+ef.close()
+
+##获取待读取时间
+#获取当前时间
+localtime = tttt.asctime(tttt.localtime(tttt.time()))
+time_now = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+#读取起报时间
+qibao_dir = os.path.dirname(a)+'/'
+qi = open(qibao_dir+'qibao.txt','r')
+qii = qi.readlines()
+inital_time = qii[0].strip('\n')
+#格式化起报时间
+formatt = '%Y%m%d'
+today = dt.datetime.strptime(inital_time[:8],formatt)
+yesterday = today - dt.timedelta(days = 1)
+#为应对模式传输所滞后的7小时时间，设定两种读取时间，\
+#当前时间早于5点时和当前时间晚于5点时
+if  int(inital_time[-4:]) <= 510:
+	qibao = str(yesterday)[:4]+str(yesterday)[5:7]+str(yesterday)[8:10]+'12'
+else:
+	qibao = str(today)[:4]+str(today)[5:7]+str(today)[8:10]+'00'
+#print('#',qibao)
+te = str(qibao)[:4]+'-'+str(qibao)[4:6]+'-'+str(qibao)[6:8]+\
+'-'+str(qibao)[8:10]
+#生成时间序列
+inital_time_list = pd.date_range(te,periods = 85,freq = '1h').tolist()
+time_list = []
+for i in range(len(inital_time_list)):
+	time_list.append(str(inital_time_list[i])[:4]+str(inital_time_list[i])[5:7]+\
+	str(inital_time_list[i])[8:10]+str(inital_time_list[i])[11:13])
+#将起报时间转换为北京时间，用于为预报结果文件命名
+bbbb = dt.datetime(int(qibao[:4]),int(qibao[4:6]), int(qibao[6:8]), int(qibao[8:10]))
+timeaaaa = utc2local(bbbb)
+qibao_local = str(timeaaaa)[:4]+str(timeaaaa)[5:7]+str(timeaaaa)[8:10]+str(timeaaaa)[11:13]
+
+#读取路径文件
+dir_f = open(absu+'predict.txt','r')
+dir_ff = dir_f.readlines()
+wrf_name = dir_ff[0].strip('\n')
+output_name = dir_ff[1].strip('\n')
+model_name = dir_ff[2].strip('\n')
+vis_micaps_pool_name = dir_ff[3].strip('\n')
+os.system('mkdir '+eval(output_name))
+os.system('mkdir '+eval(vis_micaps_pool_name)+qibao_local)
+
+#逐时次预报
+def predict_wrf_l_p(i):
+	#有的时刻中，并不是所有45个模式都有结果，nj用来记录那些模式有结果，最终用于求预报结果的平均值
+	nj = []
+	#转世界时为北京时，用于最终存储预报文件
+	aaa = str(time_list[i])
+	bbb = dt.datetime(int(aaa[:4]),int(aaa[4:6]), int(aaa[6:8]), int(aaa[8:10]))
+	timeaaa = utc2local(bbb)
+	local = int(str(timeaaa)[:4]+str(timeaaa)[5:7]+str(timeaaa)[8:10]+str(timeaaa)[11:13])
+	#每个时刻有45个模式结果
+	for jjj in range(1,46):
+		print('正在处理：第%i个时次中的第%i个模式' % (i,jjj))
+		try:
+		##读取各变量值
+			lat = col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+'u_10'+'.csv'),-2)
+		except:
+			print('File Not Found' +time_list[i]+'_'+'{:0>3}'.format(jjj))
+			continue
+		lon = col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+'u_10'+'.csv'),-3)
+		###文件名组
+		file_var = ['u_10','v_10','TMP_2m','DPT_2m','RH_2m','RH_925',\
+	't_surface','TMP_850']
+		###最终使用的变量名组
+		var3 = ['son','u_10m','v_10m','t_2m','dpt_2m','td','rh_2m','rh_925',\
+	'fsi_index','fsl_index']
+		inputdata = np.zeros((len(lat), len(var3)))
+		tempdata = np.zeros((len(lat), 2))
+		time_wrf = col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+'u_10'+'.csv'),1)
+		time_co = []
+		for p in range(len(time_wrf)):
+			time_co.append(str(time_wrf[p])[5:7]\
+			+str(time_wrf[p])[8:10]+str(time_wrf[p])[11:13]+str(time_wrf[p])[14:16])
+		##计算季节指标
+		son = season(time_co)
+		inputdata[:,var3.index('son')] = np.array(son)
+
+		##读取变量
+		for name in range(4):
+			file_temp = pd.read_csv(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+file_var[name]+'.csv',header = None, sep=',').values
+			inputdata[:,name+1] = file_temp[:,-1]
+		for name in range(4,6):
+			file_temp = pd.read_csv(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+file_var[name]+'.csv',header = None, sep=',').values
+			inputdata[:,name+2] = file_temp[:,-1]
+		file_temp = pd.read_csv(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+'t_surface'+'.csv',header = None, sep=',').values
+		tempdata[:,0] = file_temp[:,-1]
+		file_temp = pd.read_csv(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'{:0>3}'.format(jjj)+'_'+'TMP_850'+'.csv',header = None, sep=',').values
+		tempdata[:,1] = file_temp[:,-1]
+		del file_temp
+		##计算露点温度差
+		inputdata[:,var3.index('td')] = inputdata[:,var3.index('t_2m')]-\
+		inputdata[:,var3.index('dpt_2m')]
+		##计算fsi指数
+		inputdata[:,var3.index('fsi_index')] = 2*abs(tempdata[:,0]-inputdata[:,var3.index('dpt_2m')])+2*abs(tempdata[:,0]-tempdata[:,1])\
+			+0.5*((inputdata[:,var3.index('u_10m')]**2+inputdata[:,var3.index('v_10m')]**2)**0.5)
+		##计算fsl指数
+		inputdata[:,var3.index('fsl_index')] = 1609.334*6000.*(inputdata[:,var3.index('t_2m')]-inputdata[:,var3.index('dpt_2m')])/(inputdata[:,var3.index('rh_2m')]**1.75)
+		time_co = np.array(time_co).astype(int).reshape(len(time_co),1)
+		lat = np.array(lat).astype(float).reshape(len(lat),1)
+		lon = np.array(lon).astype(float).reshape(len(lon),1)
+		inputdata = np.concatenate((time_co,lat,lon,inputdata),axis = 1)
+		del tempdata
+	#预报
+		#预报模型
+		model = load_model(eval(model_name)+'10_regression_500_1024_weights.140-0.06.hdf5')
+		XX = inputdata[:, 3:]
+		where_are_nan = np.isnan(XX)
+		where_are_inf = np.isinf(XX)
+		XX[where_are_nan] = 0
+		XX[where_are_inf] = 0
+		#归一化并预报
+		x_stan = pd.read_csv(eval(model_name)+'min_max_new.csv', header = None, sep = ',').values
+		X = Normalizemaxmin(XX, x_stan)
+		pred = model.predict(X, batch_size=1024)
+		pre = MaxMin_inverse(pred).reshape(len(pred),1)
+		del XX
+		##用于等级精细化预报
+		data_for_staging2 = np.concatenate((inputdata[:,:],pre),axis = 1)
+		low_vis_index = np.where(data_for_staging2[:,-1] < 1000)[0]
+		#data_fi2 = pd.DataFrame(data_for_staging2[low_vis_index,:])
+		data_fi2 = data_for_staging2[low_vis_index,:]
+		#等级精细化预报:
+		#模型
+		model_l = load_model(eval(model_name)+'10_level_4_60_256weights.100-1.02.hdf5')
+#		model_l = load_model(eval(model_name+'10_cos_levelweights.80-0.02.hdf5')
+		XX = data_fi2[:, 3:]
+		where_are_nan = np.isnan(XX)
+		where_are_inf = np.isinf(XX)
+		XX[where_are_nan] = 0
+		XX[where_are_inf] = 0
+		#归一化并预报
+		x_stan = pd.read_csv(eval(model_name)+'min_max_new2.csv', header = None, sep = ',').values
+		X = Normalizemaxmin(XX, x_stan)
+		pre = model_l.predict_classes(X, batch_size=1024).reshape(X.shape[0],1)
+		del XX
+		del inputdata
+			#把没雾的地方写为-1
+		col_o = (-1)*np.ones((len(lat),3))
+		col_o[:,0] = lat.reshape(lat.shape[0],)
+		col_o[:,1] = lon.reshape(lon.shape[0],)
+		col_o[low_vis_index,2] = pre[:,0]
+#		data_for_staging3 = np.concatenate((data_fi2[:,1].reshape(data_fi2.shape[0],1),data_fi2[:,2].reshape(data_fi2.shape[0],1),pre),axis = 1)
+		data_fi3 = pd.DataFrame(col_o)
+		data_fi3.to_csv(eval(output_name)+time_list[i]+'_'+str(jjj)+'_over'+'.csv', sep = ',', header = False, index = False)
+		del col_o
+		#存储预报成功的模式
+		nj.append(jjj)
+#			except:
+#				print(jjj)
+#				continue
+	#整合所有模式结果，做概率预报
+	lev = np.zeros((len(lat),len(nj)))
+	proba = np.zeros((len(lat),6))
+	for jjj in range(len(nj)):
+		lev[:,jjj] = np.array(col(open_file(eval(output_name)+time_list[i]+'_'+str(nj[jjj])+'_over'+'.csv'),-1))
+	for go in range(len(lat)):
+		for goo in range(-1,5):
+			proba[go,goo+1] = round(len(np.where(lev[go,:]==goo)[0])/len(nj),2)
+	fover = open(eval(output_name)+time_list[i]+'_proba'+'.csv','w')
+	fover.write('lat'+','+'lon'+','+'-1,0,1,2,3,4'+'\n')
+	for qi in range(len(lat)):
+		fover.write(str(lat[qi][0])+','+str(lon[qi][0])+','+str(proba[qi,0])+','+str(proba[qi,1])\
+		+','+str(proba[qi,2])+','+str(proba[qi,3])+','+str(proba[qi,4])+','+str(proba[qi,5])\
+		+'\n')
+	fover.close()
+	del lev
+	del proba
+	interpolate_9_5_ccx_l_p(eval(output_name)+time_list[i]+'_proba'+'.csv',eval(output_name)+time_list[i]+'_interpolated'+'.csv')
+	#插值
+	micpas_function_5km_l_p(eval(output_name)+time_list[i]+'_interpolated'+'.csv',\
+	eval(vis_micaps_pool_name)+qibao_local+'/'+str(local)+'finish22'+'.txt','12-72小时能见度等级概率预报'\
+	,str(local)[:4],str(local)[4:6],str(local)[6:8],str(local)[8:10],'1')
+	print(str(i)+'-over')
+
+#多线程
+pool = Pool(processes=17) 
+res = pool.map(predict_wrf_l_p, range(85))
+
+#test
+#predict_wrf_l_p(0)
+
+
+print('begin:',sa)
+print('over:',tttt.strftime("%Y%m%d%H%M", tttt.localtime()))
+print('predict_fjec_l_p_over')
+os.system('rm -r '+eval(output_name))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

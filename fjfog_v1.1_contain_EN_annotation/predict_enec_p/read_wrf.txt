@@ -1,0 +1,3 @@
+'/home/user/dir1/input/wrf/'
+'/home/user/'
+'/home/user/fjfog_v1.0/wrf_pool/'

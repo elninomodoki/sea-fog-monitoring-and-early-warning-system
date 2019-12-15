@@ -1,0 +1,54 @@
+*****************201811291934*****************
+Traceback (most recent call last):
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/predict_lwc/predict.py", line 89, in <module>
+    clwmr =col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'CLWMR'+'.csv'),-1)	
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/predict_lwc/micaps_function.py", line 183, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/wrf_pool/2017030512/2017030512_CLWMR.csv'
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>
+OSError: [Errno 5] Input/output error
+*****************201703060740*****************
+Traceback (most recent call last):
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/predict_lwc/predict.py", line 107, in <module>
+    ,time_list[i][:4],time_list[i][4:6],time_list[i][6:8],time_list[i][8:10],'1')
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/predict_lwc/micaps_function.py", line 43, in micpas_function_5km
+    f = open(output_name,'w')
+FileNotFoundError: [Errno 2] No such file or directory: '/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/wrf_lwc_micaps_pool/2017030520/2017030520finish.txt'
+*****************201703061643*****************
+Traceback (most recent call last):
+  File "/media/lbb/新加卷1/fjfog2017-2018/fjfog_v0.1/fjfog_v0.6/predict_lwc/predict.py", line 101, in <module>
+    f.write(str(time_co[j]) + ','+str(lat[j]) + ','+str(lon[j]) + ','+ str(vis[j])+ '\n')
+OSError: [Errno 28] No space left on device
+*****************201812221948*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/predict_lwc/predict.py", line 107, in <module>
+    ,time_list[i][:4],time_list[i][4:6],time_list[i][6:8],time_list[i][8:10],'1')
+  File "/home/user/fjfog_v1.0/predict_lwc/micaps_function.py", line 43, in micpas_function_5km
+    f = open(output_name,'w')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_lwc_micaps_pool/2017030508/2017030508finish.txt'
+Exception ignored in: <_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>
+OSError: [Errno 5] Input/output error
+*****************201812231824*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/predict_lwc/predict.py", line 89, in <module>
+    clwmr =col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'CLWMR'+'.csv'),-1)	
+  File "/home/user/fjfog_v1.0/predict_lwc/micaps_function.py", line 183, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_pool/2017030500/2017030500_CLWMR.csv'
+*****************201812240027*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/predict_lwc/predict.py", line 89, in <module>
+    clwmr =col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'CLWMR'+'.csv'),-1)	
+  File "/home/user/fjfog_v1.0/predict_lwc/micaps_function.py", line 183, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_pool/2018122112/2018122112_CLWMR.csv'
+*****************201812240102*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/predict_lwc/predict.py", line 89, in <module>
+    clwmr =col(open_file(eval(wrf_name)+qibao+'/'+time_list[i]+'_'+'CLWMR'+'.csv'),-1)	
+  File "/home/user/fjfog_v1.0/predict_lwc/micaps_function.py", line 183, in open_file
+    with open(filename, 'r') as file_to_read:
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/wrf_pool/2018122112/2018122112_CLWMR.csv'
+*****************201812240140*****************
+*****************201812240417*****************
+*****************201812240925*****************

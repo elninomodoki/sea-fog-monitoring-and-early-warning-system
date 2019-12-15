@@ -1,0 +1,4 @@
+'/home/user/fjfog_v1.1/wrf_vis_pool/'
+'/home/user/fjfog_v1.1/0_24_obs_over/'
+'/home/user/fjfog_v1.1/0_24_obs_over/'
+'/home/user/trans_data/obs/'

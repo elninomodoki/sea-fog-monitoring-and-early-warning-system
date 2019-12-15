@@ -1,0 +1,177 @@
+# -*- coding: utf-8 -*-
+'''
+创建于20180306,修改于20190426
+@author: lxb
+读取enec数据
+'''
+import numpy as np
+np.random.seed(1337)
+import pandas as pd
+import os
+import csv
+import os.path
+import math
+from time import *
+from function_time_demo import all_path
+from pandas import read_csv
+import time as tttt
+import datetime
+import sys
+import subprocess
+
+def read_ecen(id,id2,wrf_name,dist,ec_list_ee,time_list_w):
+	'''读取enec数据'''
+	#转换到wgrib所在文件夹
+	os.chdir(eval(wgrib_name))
+	#读取,预报是每6个小时的，而模式是每3个小时的，所以有些模式不被读取很正常，以下if用来判断模式是否被读取
+	for w in range(len(time_list_w)):
+		os.system('mkdir '+ dist+time_list_w[w])
+		if time_list_w[w] == ec_list_ee[34:51]:
+			flag = w
+			inn = 0
+			break
+		else:
+			inn = 1
+	if inn == 0:
+		for jj in range(len(id2)):
+			os.system('mkdir '+ dist+time_list_w[flag]+'/'+id2[jj])
+			for kk in range(0,52):#(0,52)
+				#判断是不是nanxxnan
+				if len(id1[jj][kk]) < 6:
+					#如果不是才读
+					final_name = eval(wrf_name)+qibao+'/' + ec_list_ee 
+					a = './wgrib/wgrib '+final_name+' -ncpu 4'+\
+					' -d '+str(id1[jj][kk]) +' -h -text -o '\
+					+dist+time_list_w[flag]+'/'+id2[jj]+'/'+time_list_w[flag][:6]+'_'+time_list_w[flag][8:14]+'_'+str(id2[jj])+'_'+'{:0>2}'.format(str(kk))+'.txt'
+					os.system(a)
+				#如果是nan，输出提示
+				else:
+					print('File is Not Complete %i' %(kk))
+
+
+
+print('read_enec_begin')
+##记录错误
+#读取该脚本名
+name = os.path.dirname(__file__)
+#获取当前脚本所在目录
+a = os.path.abspath(name)
+#得到当前脚本绝对路径
+absu = a+'/'
+#建立错误日志
+fsock = open(absu+'read_enec_error.log', 'a')
+#设置将错误输出到文件
+sys.stderr = fsock
+#获取当前时间
+sa = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+#将当前时间打印到错误日志的开头
+ef = open(absu+'read_enec_error.log', 'a')
+ef.write('*****************'+str(sa)+'*****************'+'\n')
+ef.close()
+
+##获取待读取时间
+#获取当前时间
+inital_time = tttt.strftime("%Y%m%d%H%M", tttt.localtime())
+today = datetime.date.today()
+yesterday = today - datetime.timedelta(days = 1)
+#为应对模式传输所滞后的7小时时间，设定两种读取时间，\
+#当前时间早于5点时和当前时间晚于5点时
+if int(inital_time[-4:]) <= 510:
+	qibao = str(yesterday)[:4]+str(yesterday)[5:7]+str(yesterday)[8:10]+'12'
+else:
+	qibao = str(today)[:4]+str(today)[5:7]+str(today)[8:10]+'00'
+
+############test##########
+#用于临时测试,正式使用时需注释掉
+#qibao = '2018031000'
+##########################
+
+#标准化起报时间
+te = str(qibao)[:4]+'-'+str(qibao)[4:6]+'-'+str(qibao)[6:8]+\
+'-'+str(qibao)[8:10]
+#生成时间序列
+inital_time_list = pd.date_range(te,periods = 40,freq = '6h').tolist()
+time_list = []
+for i in range(len(inital_time_list)):
+	time_list.append(str(inital_time_list[i])[:4]+str(inital_time_list[i])[5:7]+\
+	str(inital_time_list[i])[8:10]+str(inital_time_list[i])[11:13])
+
+time_list_w = []
+for i in range(len(time_list)):
+	time_list_w.append(qibao[4:]+'00'+time_list[i][4:]+'001')
+print(len(time_list_w))
+
+
+#读取路径文件
+dir_f = open(absu+'read_enec.txt','r')
+dir_ff = dir_f.readlines()
+wrf_name = dir_ff[0].strip('\n')
+wgrib_name = dir_ff[1].strip('\n')
+wrf_pool_name = dir_ff[2].strip('\n')
+os.system('mkdir '+eval(wrf_pool_name)+qibao)
+os.system('mkdir '+eval(wrf_name)+'temp')
+output_name = eval(wrf_pool_name)+qibao+'/'
+ec_list = all_path(eval(wrf_name)+qibao)
+
+
+#转换路径到解压后的文件目录，准备读取
+os.chdir(eval(wrf_name)+qibao)
+
+#读取准备，获取“房间号”
+for ee in range(len(ec_list)):
+	#转换路径到wgrib所在目录
+	os.chdir(eval(wgrib_name))                           
+	#读取文件内容名录输出到txt，备于筛选所需要的变量
+	os.system('./wgrib/wgrib '+eval(wrf_name)+qibao+'/'+ec_list[ee]+' -v > '+eval(wrf_name)+'temp/'+ec_list[ee]+'.txt')
+	id1 = []
+	id1_temp = []
+	#id2 = ['SSTK','10U','10V','R1000mb','2D','2T']
+	id2 = ['10Usfc','10Vsfc','2Dsfc','2Tsfc','LCCsfc','SSTKsfc','R1000 mb',\
+	'T850 mb','T925 mb','T1000 mb']
+	id22 = ['10Usfc','10Vsfc','2Dsfc','2Tsfc','LCCsfc','SSTKsfc','R1000mb',\
+	'T850mb','T925mb','T1000mb']
+	fe = open(eval(wrf_name)+'temp/'+ec_list[ee]+'.txt','r')
+	fee = fe.readlines()
+	for i in range(len(fee)):
+		fee[i] = fee[i].split(':')
+	for j in range(len(id2)):
+		id1_temp = []
+		#465:19518913:D=2018031000:T:925 	mb:kpds=130,100,925:anl:type=Perturbed forecast 16:winds are N/S:"Temperature [K] 10个变量的52个模式
+		for k in range(0,52):#(0,52)
+			flag_e = 0
+			for i in range(len(fee)):
+				if fee[i][3]+fee[i][4] == id2[j] and fee[i][7][-2:] == str(int(k)):
+					id1_temp.append(fee[i][0])
+					flag_e = flag_e + 1
+					break
+			if flag_e == 0:
+				id1_temp.append('nan'+str(int(k))+'nan')
+		id1.append(id1_temp)
+	print(id1)
+	read_ecen(id1,id22,wrf_name,output_name,ec_list[ee],time_list_w)
+print('begin:',sa)
+print('over:',tttt.strftime("%Y%m%d%H%M", tttt.localtime()))
+print('read_enec_over')
+os.system('rm -r '+eval(wrf_name)+'temp')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+*****************201703051304*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/unpack/2018030512'
+*****************201703051305*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/ENECS/2018030512'
+*****************201703051307*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/unpack/2018030512'
+*****************201703050310*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/unpack/2018030512'
+*****************201703040310*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/data/trans_data/fjfog_v0.7/unpack/2018030512'
+*****************201703040313*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 156, in <module>
+    read_ecen(id1,id22,wrf_name,output_name,ec_list[ee],time_list_w)
+  File "read_enec.py", line 38, in read_ecen
+    os.chdir('/home/lbb/fjwrf')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/lbb/fjwrf'
+*****************201703040315*****************
+*****************201812212157*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 138, in <module>
+    fe = open(eval(wrf_name)+'temp/'+ec_list[ee]+'.txt','r')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/unpack/temp/W_NAFP_C_ECMF_20180305075640_P_C3E03050000031000001-ACHN.bz2.txt'
+*****************201812212159*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 138, in <module>
+    fe = open(eval(wrf_name)+'temp/'+ec_list[ee]+'.txt','r')
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/fjfog_v1.0/unpack/temp/W_NAFP_C_ECMF_20180305074835_P_C3E03050000031021001-ACHN.bz2.txt'
+*****************201812212204*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 156, in <module>
+    read_ecen(id1,id22,wrf_name,output_name,ec_list[ee],time_list_w)
+  File "read_enec.py", line 41, in read_ecen
+    print(time_list_w[w],ec_list_ee[34:51])
+KeyboardInterrupt
+*****************201812221256*****************
+*****************201812221330*****************
+*****************201812221529*****************
+*****************201812222124*****************
+*****************201812231824*****************
+Traceback (most recent call last):
+  File "/home/user/fjfog_v1.0/read_enec/read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/dir1/input/ecmwf_ens/2018030500'
+*****************201812231910*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/dir1/input/ecmwf_ens/2018030500'
+*****************201812231921*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/dir1/input/ecmwf_ens/2018122112'
+*****************201812231923*****************
+*****************201812231925*****************
+*****************201812232033*****************
+Traceback (most recent call last):
+  File "read_enec.py", line 126, in <module>
+    os.chdir(eval(wrf_name)+qibao)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/user/dir1/input/ecmwf_ens/2018122112'
+*****************201812232033*****************
+*****************201812232110*****************
+*****************201812240123*****************
+Traceback (most recent call last):
+  File "read_enec_temp.py", line 147, in <module>
+    if fee[i][3]+fee[i][4] == id2[j] and fee[i][7][-2:] == str(int(k)):
+KeyboardInterrupt
+*****************201812240133*****************
+Traceback (most recent call last):
+  File "read_enec_temp.py", line 147, in <module>
+    if fee[i][3]+fee[i][4] == id2[j] and fee[i][7][-2:] == str(int(k)):
+KeyboardInterrupt
+*****************201812240134*****************
+Traceback (most recent call last):
+  File "read_enec_temp.py", line 147, in <module>
+    if fee[i][3]+fee[i][4] == id2[j] and fee[i][7][-2:] == str(int(k)):
+KeyboardInterrupt
+*****************201812240142*****************

@@ -1,0 +1,4 @@
+'/home/user/dir2/ecmwf_ens/'
+'/home/user/'
+'/home/user/fjfog_v1.1/enec_pool/'
+
